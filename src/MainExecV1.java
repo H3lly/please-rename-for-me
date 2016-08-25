@@ -5,7 +5,7 @@ public class MainExecV1 {
   }
 
   public static String[] getFileListV1() {
-    String[] fileList = { "Sense8 S1E1", "S01E02", "5X3", "Saison 1 Episode 4", "Saison01.Episode05 " };
+    String[] fileList = { "Sense8 S1E1", "S01E02", "1X3", "Saison 1 Episode 4", "Saison01.Episode05 " };
     return fileList;
   }
 
@@ -38,9 +38,7 @@ public class MainExecV1 {
       } else {
         tmp = testRegex.main("\\D*(\\d*X\\d*)\\D*", fileList[i]);
         if (tmp != "None") {
-          System.out.println("heho");
           String season = testRegex.main("\\D*(\\d*)X.*", tmp);
-          System.out.println("Season = " + season);
           int sint = Integer.parseInt(season);
           if (sint < 10)
             season = "0" + sint;
@@ -49,6 +47,32 @@ public class MainExecV1 {
           if (sepisode < 10)
             episode = "0" + sepisode;
           fileList[i] = name + " - " + "S" + season + "E" + episode;
+        }else {
+          tmp = testRegex.main("\\D* (\\d*\\D*\\d*).*", fileList[i]);
+          if (tmp != "None") {
+            String season = testRegex.main("(\\d*) Episode .*", tmp);
+            int sint = Integer.parseInt(season);
+            if (sint < 10)
+              season = "0" + sint;
+            String episode = testRegex.main("\\d* Episode (\\d*)", tmp);
+            int sepisode = Integer.parseInt(episode);
+            if (sepisode < 10)
+              episode = "0" + sepisode;
+            fileList[i] = name + " - " + "S" + season + "E" + episode;
+          }else {
+            tmp = testRegex.main("\\D*(\\d*\\D*\\d*).*", fileList[i]);
+            if (tmp != "None") {
+              String season = testRegex.main("(\\d*)\\.Episode.*", tmp);
+              int sint = Integer.parseInt(season);
+              if (sint < 10)
+                season = "0" + sint;
+              String episode = testRegex.main("\\d*\\.Episode(\\d*)", tmp);
+              int sepisode = Integer.parseInt(episode);
+              if (sepisode < 10)
+                episode = "0" + sepisode;
+              fileList[i] = name + " - " + "S" + season + "E" + episode;
+            }
+          }
         }
       }
     }
