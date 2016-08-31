@@ -9,69 +9,53 @@ public class MainExecV1 {
     return fileList;
   }
 
-//  public static String getNameFormatV1(int n) {
-//    if (n == 1)
-//      return "S[0-9]+E[0-9]+";
-//    if (n == 2)
-//      return "S0[0-9]+E0[0-9]+";
-//    if (n == 3)
-//      return "[0-9]+x[0-9]+";
-//    if (n == 4)
-//      return "Saison [0-9]+ Episode [0-9]+";
-//    else
-//      return "Saison\\.[0-9]+\\.Episode\\.[0-9]+";
-//  }
+  // public static String getNameFormatV1(int n) {
+  // if (n == 1)
+  // return "S[0-9]+E[0-9]+";
+  // if (n == 2)
+  // return "S0[0-9]+E0[0-9]+";
+  // if (n == 3)
+  // return "[0-9]+x[0-9]+";
+  // if (n == 4)
+  // return "Saison [0-9]+ Episode [0-9]+";
+  // else
+  // return "Saison\\.[0-9]+\\.Episode\\.[0-9]+";
+  // }
 
   public static String[] rename(String[] fileList, /* String nameFormat, */ String name) {
     for (int i = 0; i < fileList.length; ++i) {
-      String tmp = testRegex.main(".*(S\\d*E\\d*).*", fileList[i]);
-      if (tmp != "None") {
-        String season = testRegex.main(".*S(\\d*)E\\d*.*", tmp);
-        int sint = Integer.parseInt(season);
-        if (sint < 10)
-          season = "0" + sint;
-        String episode = testRegex.main(".*S\\d*E(\\d*).*", tmp);
-        int sepisode = Integer.parseInt(episode);
-        if (sepisode < 10)
-          episode = "0" + sepisode;
-        fileList[i] = name + " - " + "S" + season + "E" + episode;
+      String[] tab = testRegex.match(".*S(\\d+)E(\\d+).*", fileList[i]);
+      if (tab[0] != "None") {
+        String tmp = tab[0];
+        String season = tab[1];
+        if (season.length() == 1)
+          season = "0" + season;
+        String episode = tab[2];
+        if (episode.length() == 1)
+          episode = "0" + episode;
+        fileList[i] = name + " - " + "S" + season + " E" + episode;
+        System.out.println(
+            "Original :" + tmp + " | Episode " + episode + " | Season " + season + " | Final : " + fileList[i]);
       } else {
-        tmp = testRegex.main("\\D*(\\d*X\\d*)\\D*", fileList[i]);
-        if (tmp != "None") {
-          String season = testRegex.main("\\D*(\\d*)X.*", tmp);
-          int sint = Integer.parseInt(season);
-          if (sint < 10)
-            season = "0" + sint;
-          String episode = testRegex.main(".*X(\\d*).*", tmp);
-          int sepisode = Integer.parseInt(episode);
-          if (sepisode < 10)
-            episode = "0" + sepisode;
-          fileList[i] = name + " - " + "S" + season + "E" + episode;
-        }else {
-          tmp = testRegex.main("\\D* (\\d*\\D*\\d*).*", fileList[i]);
-          if (tmp != "None") {
-            String season = testRegex.main("(\\d*) Episode .*", tmp);
-            int sint = Integer.parseInt(season);
-            if (sint < 10)
-              season = "0" + sint;
-            String episode = testRegex.main("\\d* Episode (\\d*)", tmp);
-            int sepisode = Integer.parseInt(episode);
-            if (sepisode < 10)
-              episode = "0" + sepisode;
-            fileList[i] = name + " - " + "S" + season + "E" + episode;
-          }else {
-            tmp = testRegex.main("\\D*(\\d*\\D*\\d*).*", fileList[i]);
-            if (tmp != "None") {
-              String season = testRegex.main("(\\d*)\\.Episode.*", tmp);
-              int sint = Integer.parseInt(season);
-              if (sint < 10)
-                season = "0" + sint;
-              String episode = testRegex.main("\\d*\\.Episode(\\d*)", tmp);
-              int sepisode = Integer.parseInt(episode);
-              if (sepisode < 10)
-                episode = "0" + sepisode;
-              fileList[i] = name + " - " + "S" + season + "E" + episode;
-            }
+        tab = testRegex.match(".*(\\d+).(\\d+).*", fileList[i]);
+        if (tab[0] != "None") {
+          String season = tab[1];
+          if (season.length() == 1)
+            season = "0" + season;
+          String episode = tab[2];
+          if (episode.length() == 1)
+            episode = "0" + episode;
+          fileList[i] = name + " - " + "S" + season + " E" + episode;
+        } else {
+          tab = testRegex.match(".*.aison ?(\\d+).*.pisode ?(\\d+) ?.*", fileList[i]);
+          if (tab[0] != "None") {
+            String season = tab[1];
+            if (season.length() == 1)
+              season = "0" + season;
+            String episode = tab[2];
+            if (episode.length() == 1)
+              episode = "0" + episode;
+            fileList[i] = name + " - " + "S" + season + " E" + episode;
           }
         }
       }
@@ -83,6 +67,7 @@ public class MainExecV1 {
     String[] fileList = getFileListV1();
     // String nameFormat = getNameFormatV1(1);
     String[] renamed = rename(fileList, /* nameFormat, */ "American Horror Story");
-    System.out.println("\n" + renamed[0] + "\n" + renamed[1]+ "\n" + renamed[2]+ "\n" + renamed[3]+ "\n" + renamed[4]);
+    System.out
+        .println("\n" + renamed[0] + "\n" + renamed[1] + "\n" + renamed[2] + "\n" + renamed[3] + "\n" + renamed[4]);
   }
 }
