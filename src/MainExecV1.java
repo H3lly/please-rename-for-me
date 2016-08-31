@@ -54,9 +54,11 @@ public class MainExecV1 {
   }
 
   public static void main(String[] args) {
+    Window fen = new Window("Please rename for me", 500, 500);
+    /*
     String[] fileList = getFileListV1();
     String name = getName();
     String[] renamed = rename(fileList, name);
-    System.out.println(renamed[0] + "\n" + renamed[1] + "\n" + renamed[2] + "\n" + renamed[3] + "\n" + renamed[4]);
+    System.out.println(renamed[0] + "\n" + renamed[1] + "\n" + renamed[2] + "\n" + renamed[3] + "\n" + renamed[4]);*/
   }
 }
