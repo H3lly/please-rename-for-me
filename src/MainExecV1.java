@@ -9,18 +9,6 @@ public class MainExecV1 {
     return fileList;
   }
 
-  // public static String getNameFormatV1(int n) {
-  // if (n == 1)
-  // return "S[0-9]+E[0-9]+";
-  // if (n == 2)
-  // return "S0[0-9]+E0[0-9]+";
-  // if (n == 3)
-  // return "[0-9]+x[0-9]+";
-  // if (n == 4)
-  // return "Saison [0-9]+ Episode [0-9]+";
-  // else
-  // return "Saison\\.[0-9]+\\.Episode\\.[0-9]+";
-  // }
 
   public static String[] rename(String[] fileList, /* String nameFormat, */ String name) {
     for (int i = 0; i < fileList.length; ++i) {
@@ -65,8 +53,7 @@ public class MainExecV1 {
 
   public static void main(String[] args) {
     String[] fileList = getFileListV1();
-    // String nameFormat = getNameFormatV1(1);
-    String[] renamed = rename(fileList, /* nameFormat, */ "American Horror Story");
+    String[] renamed = rename(fileList, "American Horror Story");
     System.out
         .println("\n" + renamed[0] + "\n" + renamed[1] + "\n" + renamed[2] + "\n" + renamed[3] + "\n" + renamed[4]);
   }
