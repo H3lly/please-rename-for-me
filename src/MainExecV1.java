@@ -10,40 +10,40 @@ public class MainExecV1 {
     return fileList;
   }
 
-  public static String[] rename(String[] fileList, /* String nameFormat, */ String name) {
+  public static String[] rename(String[] fileList, String name) {
     for (int i = 0; i < fileList.length; ++i) {
+      String season = "0";
+      String episode = "0";
       String[] tab = testRegex.match(".*S(\\d+)E(\\d+).*", fileList[i]);
       if (tab[0] != "None") {
-        String season = tab[1];
+        season = tab[1];
         if (season.length() == 1)
           season = "0" + season;
-        String episode = tab[2];
+        episode = tab[2];
         if (episode.length() == 1)
           episode = "0" + episode;
-        fileList[i] = name + " S" + season + "E" + episode;
       } else {
         tab = testRegex.match(".*(\\d+).(\\d+).*", fileList[i]);
         if (tab[0] != "None") {
-          String season = tab[1];
+          season = tab[1];
           if (season.length() == 1)
             season = "0" + season;
-          String episode = tab[2];
+          episode = tab[2];
           if (episode.length() == 1)
             episode = "0" + episode;
-          fileList[i] = name + " S" + season + "E" + episode;
         } else {
           tab = testRegex.match(".*.aison ?(\\d+).*.pisode ?(\\d+) ?.*", fileList[i]);
           if (tab[0] != "None") {
-            String season = tab[1];
+            season = tab[1];
             if (season.length() == 1)
               season = "0" + season;
-            String episode = tab[2];
+            episode = tab[2];
             if (episode.length() == 1)
               episode = "0" + episode;
-            fileList[i] = name + " S" + season + "E" + episode;
           }
         }
       }
+      fileList[i] = name + " S" + season + "E" + episode;
     }
     return fileList;
   }
