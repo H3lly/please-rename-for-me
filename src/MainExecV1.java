@@ -54,7 +54,7 @@ public class MainExecV1 {
   }
 
   public static void main(String[] args) {
-    Window fen = new Window("Please rename for me", 500, 500);
+    Window fen = new Window(/*"Please rename for me", 500, 500*/);
     /*
     String[] fileList = getFileListV1();
     String name = getName();
